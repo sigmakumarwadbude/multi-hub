@@ -1,88 +1,69 @@
-# multi-hub
+# Multi-Hub Microfrontend Workspace
 
-Integrated Nx workspace created with the `apps` preset and prepared for a multi-framework micro frontend setup.
+A modern, high-performance Nx monorepo designed for hybrid microfrontend architectures using **Angular**, **React**, and **Module Federation**.
 
-## Included plugins
+## 🚀 Overview
 
-This workspace already has the core Nx packages plus frontend plugins for:
+This workspace is configured to support a distributed development model where multiple frontend frameworks coexist. It leverages **Nx 22** and **Module Federation** to provide a seamless integration of remote applications into a central host shell.
 
-- React via `@nx/react`
-- Angular via `@nx/angular`
-- Vue via `@nx/vue`
-- Web tooling via `@nx/web`
+## 🛠 Tech Stack
 
-That means the repo is ready to host apps and shared libraries from more than one framework in the same workspace.
+- **Monorepo Engine:** [Nx 22.6.5](https://nx.dev)
+- **Host Framework:** [Angular 21.x](https://angular.io)
+- **Remote Support:** React 19.x, Angular 21.x, Vue.js
+- **Bundler:** Webpack (with Module Federation support)
+- **Testing:** Vitest (Unit), Playwright (E2E)
 
-## Workspace layout
+## 📂 Project Structure
 
-- `apps/` for runnable applications such as hosts and remotes
-- `libs/` for shared code, UI packages, contracts, and utilities
+- `apps/`
+  - `host-shell`: The main Angular host application.
+  - `host-shell-e2e`: End-to-end tests for the host shell.
+- `libs/`: Shared libraries, UI components, and utility functions.
 
-## Module Federation support
+## 🏁 Getting Started
 
-The installed Nx plugins expose Module Federation generators for React and Angular.
+### Active Host: `host-shell`
 
-### React host and remote
+The `host-shell` is the entry point for the microfrontend hub. It is pre-configured with routing and Module Federation.
 
+#### Run the development server:
 ```sh
-npx nx g @nx/react:host shell --directory=apps
-npx nx g @nx/react:remote products --host=shell --directory=apps
+npx nx serve host-shell
 ```
 
-### Angular host and remote
-
+#### Run unit tests:
 ```sh
-npx nx g @nx/angular:host shell-ng --directory=apps
-npx nx g @nx/angular:remote account-ng --host=shell-ng --directory=apps
+npx nx test host-shell
 ```
 
-### Federate an additional module
-
-React:
-
+#### Run E2E tests:
 ```sh
-npx nx g @nx/react:federate-module checkout --project=products
+npx nx e2e host-shell-e2e
 ```
 
-Angular:
+## 🧩 Adding Microfrontends
 
+The workspace is ready for adding both Angular and React remotes.
+
+### Add an Angular Remote:
 ```sh
-npx nx g @nx/angular:federate-module orders --project=account-ng
+npx nx g @nx/angular:remote <remote-name> --host=host-shell --directory=apps/<remote-name>
 ```
 
-## Multi-framework examples
-
-Generate apps from different frameworks into the same workspace:
-
+### Add a React Remote:
 ```sh
-npx nx g @nx/react:app storefront --directory=apps
-npx nx g @nx/angular:app dashboard --directory=apps
-npx nx g @nx/vue:app support --directory=apps
+npx nx g @nx/react:remote <remote-name> --host=host-shell --directory=apps/<remote-name>
 ```
 
-Generate shared libraries:
+## 🛠 Useful Commands
 
-```sh
-npx nx g @nx/react:lib ui-shell --directory=libs
-npx nx g @nx/angular:lib data-access --directory=libs
-npx nx g @nx/vue:lib support-widgets --directory=libs
-```
+| Command | Description |
+| :--- | :--- |
+| `npx nx graph` | Visualize the workspace graph |
+| `npx nx show projects` | List all projects in the workspace |
+| `npx nx report` | Show Nx version and plugin information |
+| `npm run reset` | Reset the Nx cache |
 
-## Suggested architecture
-
-- Use React or Angular for federated hosts and remotes
-- Use `libs/` for shared API contracts, auth state, feature flags, and design tokens
-- Keep framework-neutral code in TypeScript libraries under `libs/`
-- Treat Vue apps as standalone apps or consumers of shared libraries unless you add a custom federation strategy for them
-
-## Useful commands
-
-```sh
-npm run graph
-npm run reset
-npx nx show projects
-```
-
-## Notes for this environment
-
-In this Codex sandbox, some Nx generator commands may require running outside the sandbox because Nx spawns background processes while building the project graph. The workspace itself is valid, and on a normal local shell the generators above should work as expected.
+---
+*Created with ❤️ using Nx 22.*
