@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
   template: `
     <ul class="remote-menu">
       <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/posts">Posts</a></li>
+      <li><a routerLink="/users">Users</a></li>
     </ul>
     <router-outlet></router-outlet>
   `

@@ -1,0 +1,9 @@
+{
+  "name": "posts_mf-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "posts_mf-e2e/src",
+  "implicitDependencies": ["posts_mf"],
+  "// targets": "to see all targets run: nx show project posts_mf-e2e --web",
+  "targets": {}
+}
