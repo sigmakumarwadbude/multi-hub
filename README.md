@@ -1,96 +1,88 @@
-# MultiHub
+# multi-hub
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Integrated Nx workspace created with the `apps` preset and prepared for a multi-framework micro frontend setup.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Included plugins
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This workspace already has the core Nx packages plus frontend plugins for:
 
-## Run tasks
+- React via `@nx/react`
+- Angular via `@nx/angular`
+- Vue via `@nx/vue`
+- Web tooling via `@nx/web`
 
-To run tasks with Nx use:
+That means the repo is ready to host apps and shared libraries from more than one framework in the same workspace.
 
-```sh
-npx nx <target> <project-name>
-```
+## Workspace layout
 
-For example:
+- `apps/` for runnable applications such as hosts and remotes
+- `libs/` for shared code, UI packages, contracts, and utilities
 
-```sh
-npx nx build myproject
-```
+## Module Federation support
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+The installed Nx plugins expose Module Federation generators for React and Angular.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
-```
-
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+### React host and remote
 
 ```sh
-# Generate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
+npx nx g @nx/react:host shell --directory=apps
+npx nx g @nx/react:remote products --host=shell --directory=apps
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
+### Angular host and remote
 
 ```sh
-npx nx connect
+npx nx g @nx/angular:host shell-ng --directory=apps
+npx nx g @nx/angular:remote account-ng --host=shell-ng --directory=apps
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Federate an additional module
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
+React:
 
 ```sh
-npx nx g ci-workflow
+npx nx g @nx/react:federate-module checkout --project=products
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Angular:
 
-## Install Nx Console
+```sh
+npx nx g @nx/angular:federate-module orders --project=account-ng
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## Multi-framework examples
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Generate apps from different frameworks into the same workspace:
 
-## Useful links
+```sh
+npx nx g @nx/react:app storefront --directory=apps
+npx nx g @nx/angular:app dashboard --directory=apps
+npx nx g @nx/vue:app support --directory=apps
+```
 
-Learn more:
+Generate shared libraries:
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx g @nx/react:lib ui-shell --directory=libs
+npx nx g @nx/angular:lib data-access --directory=libs
+npx nx g @nx/vue:lib support-widgets --directory=libs
+```
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Suggested architecture
+
+- Use React or Angular for federated hosts and remotes
+- Use `libs/` for shared API contracts, auth state, feature flags, and design tokens
+- Keep framework-neutral code in TypeScript libraries under `libs/`
+- Treat Vue apps as standalone apps or consumers of shared libraries unless you add a custom federation strategy for them
+
+## Useful commands
+
+```sh
+npm run graph
+npm run reset
+npx nx show projects
+```
+
+## Notes for this environment
+
+In this Codex sandbox, some Nx generator commands may require running outside the sandbox because Nx spawns background processes while building the project graph. The workspace itself is valid, and on a normal local shell the generators above should work as expected.
