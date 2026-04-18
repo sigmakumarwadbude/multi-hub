@@ -9,12 +9,18 @@
   },
   "private": true,
   "devDependencies": {
+    "@angular-devkit/core": "~21.2.0",
     "@nx/angular": "^22.6.5",
     "@nx/js": "22.6.5",
+    "@nx/module-federation": "^22.6.5",
     "@nx/react": "^22.6.5",
     "@nx/vue": "^22.6.5",
     "@nx/web": "^22.6.5",
     "@nx/workspace": "22.6.5",
     "nx": "22.6.5"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
