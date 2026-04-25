@@ -1,15 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
-import { NxWelcome } from './nx-welcome';
+import { Welcome } from './welcome';
 import { Router, RouterModule } from '@angular/router';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([{ path: '', component: NxWelcome }]),
+        RouterModule.forRoot([{ path: '', component: Welcome }]),
         App,
-        NxWelcome,
       ],
     }).compileComponents();
   });
@@ -20,20 +19,15 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'host-shell'`, () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('host-shell');
-  });
-
-  it('should render title', async () => {
+  it('should render Welcome component content', async () => {
     const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
     await router.navigate(['']);
     await fixture.whenStable();
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome host-shell',
+    expect(compiled.querySelector('h2')?.textContent).toContain(
+      'Welcome to Host Shell'
     );
   });
 });

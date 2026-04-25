@@ -4,6 +4,11 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
+    "start": "nx serve host-shell",
+    "serve:all": "nx run-many -t serve -p host-shell posts_mf users_mf",
+    "build:all": "nx run-many -t build -p host-shell posts_mf users_mf",
+    "lint:all": "nx run-many -t lint -p host-shell posts_mf users_mf",
+    "test:all": "nx run-many -t test -p host-shell posts_mf users_mf",
     "graph": "nx graph",
     "reset": "nx reset"
   },
